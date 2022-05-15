@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_display_fragment_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DisplayItemActivity">
+    tools:context=".ItemDisplayFragment">
 
     <TextView
         android:id="@+id/newItemTextView"
@@ -106,7 +107,7 @@
         android:layout_marginTop="28dp"/>
 
     <ImageView
-        android:id="@+id/urgentIconDispaly"
+        android:id="@+id/urgentIconDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/urgentDisplay"
@@ -114,6 +115,5 @@
         app:layout_constraintTop_toTopOf="@+id/urgentDisplay"
         tools:srcCompat="@drawable/unchecked"
         android:layout_marginStart="8dp"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

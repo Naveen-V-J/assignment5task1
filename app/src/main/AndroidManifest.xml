@@ -10,9 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Assignment5task1">
         <activity
-            android:name=".DisplayItemActivity"
-            android:exported="false" />
-        <activity
             android:name=".ItemActivity"
             android:exported="false" />
         <activity

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@ class ItemAdapter(var itemList:MutableList<Item>): RecyclerView.Adapter<ItemAdap
         @SuppressLint("UseSwitchCompatOrMaterialCode")
         val itemBoughtSwitch=itemView.findViewById<Switch>(R.id.itemBoughtSwitch)
         val addItemFab=itemView.findViewById<FloatingActionButton>(R.id.addItemFab)
+        val urgentImageView=itemView.findViewById<ImageView>(R.id.urgentImageView)
 
     }
 
@@ -41,6 +43,12 @@ class ItemAdapter(var itemList:MutableList<Item>): RecyclerView.Adapter<ItemAdap
 
     override fun onBindViewHolder(holder: ItemAdapter.ViewHolder, position: Int) {
         val item = itemList.get(position)
+        if (item.urgent.equals(1)){
+            holder.urgentImageView.setImageResource(R.drawable.urgent)
+        }else{
+            holder.urgentImageView.setImageResource(R.drawable.buy)
+        }
+
         holder.itemNameTextView.setText(item.name)
         holder.itemQtyTextView.setText("Qty: ${item.qty}")
         holder.itemSizeTextView.setText("Size: ${item.size}")

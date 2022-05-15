@@ -3,6 +3,7 @@ package com.example.assignment5task1
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.ScrollCaptureCallback
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -11,12 +12,14 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class ItemAddFragment : Fragment() {
-    interface ActivityCallback{
-
+    interface OnClick{
+        fun returnToMainActivity()
     }
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var callback: OnClick
+    private lateinit var dbHelper: DBHelper
     private lateinit var itemEditText: EditText
     private lateinit var itemDetailsEditText: EditText
     private lateinit var arrowUpImageView: ImageView
@@ -28,6 +31,8 @@ class ItemAddFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dbHelper=DBHelper(requireActivity())
+        callback=activity as OnClick
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -54,12 +59,24 @@ class ItemAddFragment : Fragment() {
         urgentCheckBox=view.findViewById(R.id.urgentCheckBox)
         addToListButton=view.findViewById(R.id.addToListButton)
 
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.sizes_array,
+            android.R.layout.simple_spinner_item
+        ).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            sizeSpinner.adapter=it
+        }
+
         addToListButton.setOnClickListener(){
             if (validateInput()){
                 addItemToList()
+                callback.returnToMainActivity()
             }
         }
     }
+
+
 
     private fun validateInput(): Boolean {
         if (itemEditText.text.isNullOrEmpty()){
@@ -71,6 +88,12 @@ class ItemAddFragment : Fragment() {
     }
 
     private fun addItemToList(){
+        var isUrgent = if (urgentCheckBox.isChecked){
+            1
+        }else
+            0
+        val newItem = Item(itemEditText.text.toString(),itemDetailsEditText.text.toString(),newItemQtyDisplay.text.toString().toInt(),sizeSpinner.selectedItem.toString(),isUrgent,0)
+        dbHelper.insertItem(newItem)
 
     }
 

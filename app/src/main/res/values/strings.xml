@@ -4,4 +4,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="bought_text">Bought</string>
     <string name="appbar_edit_item">Edit Item</string>
+    <string-array name="sizes_array">
+        <item>Default</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
 </resources>

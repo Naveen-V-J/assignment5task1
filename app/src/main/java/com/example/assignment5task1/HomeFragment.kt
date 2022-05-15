@@ -29,6 +29,7 @@ class HomeFragment : Fragment() {
     private lateinit var callback:OnClick
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dbHelper=DBHelper(requireActivity())
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -41,7 +42,6 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view= inflater.inflate(R.layout.fragment_home, container, false)
-        dbHelper=DBHelper(requireActivity())
         callback=activity as OnClick
         populateItemList()
         recyclerView=view.findViewById(R.id.itemListRecyclerView)

@@ -7,12 +7,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_ITEM_ID = "id"
 class ItemDisplayFragment : Fragment() {
 
-    private var param1: String? = null
-    private var param2: String? = null
+    private var itemID: Int? = null
 
     private lateinit var itemDisplay:TextView
     private lateinit var itemDetailsDisplay:TextView
@@ -25,8 +23,7 @@ class ItemDisplayFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            itemID = it.getInt(ARG_ITEM_ID)
         }
     }
 
@@ -65,11 +62,10 @@ class ItemDisplayFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(itemID: Int) =
             ItemDisplayFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putInt(ARG_ITEM_ID, itemID)
                 }
             }
     }

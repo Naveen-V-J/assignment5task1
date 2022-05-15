@@ -1,8 +1,10 @@
 package com.example.assignment5task1
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(),HomeFragment.OnClick {
@@ -26,7 +28,12 @@ class MainActivity : AppCompatActivity(),HomeFragment.OnClick {
     }
 
     override fun addItemActivity() {
+        val resultLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if (it.resultCode==Activity.RESULT_OK){
+                supportFragmentManager.beginTransaction().replace(R.id.root,HomeFragment()).commit()
+            }
+        }
         val intent= Intent(this,ItemActivity::class.java)
-        startActivity(intent)
+        resultLauncher.launch(intent)
     }
 }

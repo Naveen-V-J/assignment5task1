@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ItemActivity">
+
+    <TextView
+        android:id="@+id/newItemTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="Item"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp"/>
+
+    <EditText
+        android:id="@+id/itemDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Shopping item"
+        app:layout_constraintStart_toStartOf="@+id/newItemTextView"
+        app:layout_constraintTop_toBottomOf="@+id/newItemTextView"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/itemDetailsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="Details"
+        app:layout_constraintTop_toBottomOf="@id/itemDisplay"
+        app:layout_constraintStart_toStartOf="@id/itemDisplay"
+        android:layout_marginTop="8dp"/>
+
+    <EditText
+        android:id="@+id/itemDetailsDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintStart_toStartOf="@+id/itemDetailsTextView"
+        app:layout_constraintTop_toBottomOf="@+id/itemDetailsTextView"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/newItemQtyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="Quantity"
+        app:layout_constraintTop_toBottomOf="@id/itemDetailsDisplay"
+        app:layout_constraintStart_toStartOf="@id/itemDetailsDisplay"
+        android:layout_marginTop="8dp"/>
+
+    <ImageView
+        android:id="@+id/arrowUpImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/itemQtyDisplay"
+        app:layout_constraintTop_toTopOf="@+id/arrowDownImageView"
+        app:srcCompat="@drawable/arrow_up"
+        android:layout_marginStart="4dp"/>
+
+    <TextView
+        android:id="@+id/itemQtyDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1"
+        android:paddingHorizontal="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/arrowDownImageView"
+        app:layout_constraintStart_toEndOf="@+id/arrowDownImageView"
+        app:layout_constraintTop_toTopOf="@+id/arrowDownImageView"
+        android:layout_marginStart="4dp"
+        />
+
+    <ImageView
+        android:id="@+id/arrowDownImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/newItemQtyTextView"
+        app:layout_constraintTop_toBottomOf="@+id/newItemQtyTextView"
+        app:srcCompat="@drawable/arrow_down"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/newItemSizeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Size"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/itemDetailsDisplay"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintStart_toEndOf="@id/newItemQtyTextView"
+        app:layout_constraintTop_toTopOf="@id/newItemQtyTextView" />
+
+    <Spinner
+        android:id="@+id/sizeSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/newItemSizeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/newItemSizeTextView"
+        android:layout_marginTop="8dp"/>
+
+    <CheckBox
+        android:id="@+id/urgentCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Urgent"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/arrowDownImageView"
+        app:layout_constraintTop_toBottomOf="@+id/arrowDownImageView"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/addToListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add To List"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/urgentCheckBox"
+        android:layout_marginTop="16dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

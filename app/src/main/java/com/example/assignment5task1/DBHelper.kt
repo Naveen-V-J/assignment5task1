@@ -87,8 +87,34 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
                 itemList.add(Item(id,name,details,qty,size, urgent,bought))
             }while (result.moveToNext())
         }
+        result.close()
         db.close()
         return itemList
+    }
+
+    fun getItem(itemID:Int):Item?{
+        val db=this.readableDatabase
+        val query="SELECT * FROM $TABLE_NAME WHERE $ID=$itemID"
+        val result=db.rawQuery(query,null)
+
+        if (result.moveToFirst()){
+            val id=result.getInt(result.getColumnIndex(ID).toInt())
+            val name=result.getString(result.getColumnIndex(NAME).toInt())
+            val details=result.getString(result.getColumnIndex(ID).toInt())
+            val qty=result.getInt(result.getColumnIndex(ID).toInt())
+            val size=result.getString(result.getColumnIndex(ID).toInt())
+            val urgent=result.getInt(result.getColumnIndex(ID).toInt())
+            val bought=result.getInt(result.getColumnIndex(ID).toInt())
+            result.close()
+            db.close()
+            return Item(
+                id,name,details,qty,size,urgent,bought
+            )
+        }else{
+            db.close()
+            result.close()
+            return null
+        }
     }
 
     fun deleteItem(id:Int){
@@ -116,6 +142,7 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
                 itemList.add(Item(id,name,details,qty,size, urgent,bought))
             }while (result.moveToNext())
         }
+        result.close()
         db.close()
         return itemList
     }
@@ -123,7 +150,7 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
     fun getItemsWhereUrgent(isUrgent:Boolean):MutableList<Item>{
         val db=this.readableDatabase
         val itemList= mutableListOf<Item>()
-        val query="SELECT * FROM $TABLE_NAME WHERE $URGENT=1"
+        val query="SELECT * FROM $TABLE_NAME WHERE $URGENT=$isUrgent"
         val result=db.rawQuery(query,null)
 
         if (result.moveToFirst()){
@@ -138,6 +165,7 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
                 itemList.add(Item(id,name,details,qty,size, urgent,bought))
             }while (result.moveToNext())
         }
+        result.close()
         db.close()
         return itemList
     }

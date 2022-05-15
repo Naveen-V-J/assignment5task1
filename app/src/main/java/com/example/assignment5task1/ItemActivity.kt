@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class ItemActivity : AppCompatActivity(),ItemAddFragment.OnClick {
+class ItemActivity : AppCompatActivity(),ItemAddFragment.OnClick,ItemDisplayFragment.OnClick {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,8 +13,8 @@ class ItemActivity : AppCompatActivity(),ItemAddFragment.OnClick {
         setContentView(R.layout.activity_item)
         supportActionBar?.setTitle("Add Item")
 
-        val itemID=intent.getIntExtra("id",0)
-        if (itemID==0){
+        val itemID=intent.getIntExtra("id",-1)
+        if (itemID==-1){
             supportFragmentManager.beginTransaction().add(R.id.item_activity_layout,ItemAddFragment()).commit()
         }else{
             val itemDisplayFragment=ItemDisplayFragment.newInstance(itemID)
@@ -28,6 +28,11 @@ class ItemActivity : AppCompatActivity(),ItemAddFragment.OnClick {
         val intent= Intent()
         setResult(Activity.RESULT_OK,intent)
         finish()
+    }
+
+    override fun editItem(itemID: Int) {
+        val itemEditFragment=ItemEditFragment.newInstance(itemID)
+        supportFragmentManager.beginTransaction().replace(R.id.item_activity_layout,itemEditFragment).addToBackStack(null).commit()
     }
 
 

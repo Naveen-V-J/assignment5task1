@@ -9,9 +9,13 @@ import androidx.fragment.app.Fragment
 
 private const val ARG_ITEM_ID = "id"
 class ItemDisplayFragment : Fragment() {
-
+    interface OnClick{
+        fun editItem(itemID: Int)
+    }
     private var itemID: Int? = null
 
+    private lateinit var callback:OnClick
+    private lateinit var dbHelper: DBHelper
     private lateinit var itemDisplay:TextView
     private lateinit var itemDetailsDisplay:TextView
     private lateinit var itemQtyDisplay:TextView
@@ -21,6 +25,8 @@ class ItemDisplayFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dbHelper= DBHelper(requireContext())
+        callback=activity as OnClick
         setHasOptionsMenu(true)
         arguments?.let {
             itemID = it.getInt(ARG_ITEM_ID)
@@ -44,9 +50,17 @@ class ItemDisplayFragment : Fragment() {
         itemSizeDisplay=view.findViewById(R.id.itemSizeDisplay)
         urgentIconDisplay=view.findViewById(R.id.urgentIconDisplay)
 
-        //get item details for db
+        val item=dbHelper.getItem(itemID!!)
 
-        //display item detials in views
+        itemDisplay.setText(item?.name)
+        itemDetailsDisplay.setText(item?.details)
+        itemQtyDisplay.setText(item?.qty.toString())
+        itemSizeDisplay.setText(item?.size)
+        if (item?.urgent!!.equals(0)){
+            urgentIconDisplay.setImageResource(R.drawable.unchecked)
+        }else{
+            urgentIconDisplay.setImageResource(R.drawable.checked)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -55,7 +69,7 @@ class ItemDisplayFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //launch edit item fragment
+        callback.editItem(itemID!!)
         return super.onOptionsItemSelected(item)
     }
 

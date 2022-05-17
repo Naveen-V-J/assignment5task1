@@ -6,35 +6,36 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_URGENT = "urgent"
 
-class HomeFragment : Fragment() {
+class UnBoughtItemsFragment : Fragment() {
     interface OnClick{
         fun displayItemActivity(itemID: Int)
         fun addItemActivity()
+        fun goToUrgentList()
     }
 
-    private var param1: String? = null
-    private var param2: String? = null
+    private var onlyUrgent: Int? = null
 
     private lateinit var dbHelper: DBHelper
     private lateinit var recyclerView:RecyclerView
     private lateinit var adapter:ItemAdapter
     private lateinit var fab:FloatingActionButton
     private lateinit var callback:OnClick
+    private lateinit var swapButton:Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dbHelper=DBHelper(requireActivity())
+        callback=activity as OnClick
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            onlyUrgent = it.getInt(ARG_URGENT)
         }
     }
 
@@ -44,7 +45,15 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view= inflater.inflate(R.layout.fragment_home, container, false)
-        callback=activity as OnClick
+        swapButton=view.findViewById(R.id.swapButton)
+        if (onlyUrgent==1){
+            swapButton.isEnabled=false
+            swapButton.visibility=View.GONE
+        }else{
+            swapButton.setOnClickListener {
+                callback.goToUrgentList()
+            }
+        }
         recyclerView=view.findViewById(R.id.itemListRecyclerView)
         recyclerView.layoutManager=LinearLayoutManager(requireContext())
         fab=view.findViewById(R.id.addItemFab)
@@ -52,7 +61,7 @@ class HomeFragment : Fragment() {
             callback.addItemActivity()
         }
 
-        adapter=ItemAdapter(dbHelper.getItemsWhereBought(false))
+        adapter=ItemAdapter(dbHelper.getUnboughtItems(onlyUrgent!!))
         adapter.onItemClick={
             callback.displayItemActivity(it.id)
 
@@ -62,6 +71,7 @@ class HomeFragment : Fragment() {
         }
 
         adapter.onItemBought={
+            it.bought=1
             onItemBought(it)
         }
         recyclerView.adapter=adapter
@@ -70,7 +80,7 @@ class HomeFragment : Fragment() {
 
     private fun onItemBought(item: Item) {
         dbHelper.updateItemBought(item)
-        adapter.itemList=dbHelper.getItemsWhereBought(false)
+        adapter.itemList=dbHelper.getUnboughtItems(onlyUrgent!!)
         adapter.notifyDataSetChanged()
     }
 
@@ -79,7 +89,7 @@ class HomeFragment : Fragment() {
         dialogBuilder.setMessage("Are you sure you want to delete ${item.name} from the list?").setCancelable(true)
             .setPositiveButton("DELETE", DialogInterface.OnClickListener { dialogInterface, i ->
             dbHelper.deleteItem(item.id)
-            adapter.itemList=dbHelper.getItemsWhereBought(false)
+            adapter.itemList=dbHelper.getUnboughtItems(onlyUrgent!!)
             adapter.notifyDataSetChanged()
             dialogInterface.dismiss()})
             .setNegativeButton("CANCEL", DialogInterface.OnClickListener { dialogInterface, i -> dialogInterface.cancel() })
@@ -89,7 +99,7 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        adapter.itemList=dbHelper.getItemsWhereBought(false)
+        adapter.itemList=dbHelper.getUnboughtItems(onlyUrgent!!)
         adapter.notifyDataSetChanged()
 
     }
@@ -97,11 +107,10 @@ class HomeFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
+        fun newInstance(onlyUrgent: Int) =
+            UnBoughtItemsFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putInt(ARG_URGENT, onlyUrgent)
                 }
             }
     }

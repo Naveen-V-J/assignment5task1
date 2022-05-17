@@ -5,6 +5,8 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
@@ -62,35 +64,16 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
     }
 
     fun updateItemBought(item: Item){
+        val date = LocalDate.now()
+        val dateFormatter=DateTimeFormatter.ofPattern("dd MMM yyy")
+        val formattedDate = date.format(dateFormatter)
+        Log.d("DATE",formattedDate)
         val db=this.writableDatabase
         val contentValues=ContentValues()
         contentValues.put(BOUGHT,item.bought)
-        contentValues.put(DATE_BOUGHT,item.dateBought)
+        contentValues.put(DATE_BOUGHT,formattedDate)
         db.update(TABLE_NAME,contentValues,"$ID=?", arrayOf(item.id.toString()))
         db.close()
-    }
-
-    fun getAllItems():MutableList<Item>{
-        val db=this.readableDatabase
-        val itemList= mutableListOf<Item>()
-        val query="SELECT * FROM $TABLE_NAME"
-        val result=db.rawQuery(query,null)
-
-        if (result.moveToFirst()){
-            do{
-                val id=result.getInt(result.getColumnIndex(ID).toInt())
-                val name=result.getString(result.getColumnIndex(NAME).toInt())
-                val details=result.getString(result.getColumnIndex(DETAILS).toInt())
-                val qty=result.getInt(result.getColumnIndex(QTY).toInt())
-                val size=result.getString(result.getColumnIndex(SIZE).toInt())
-                val urgent=result.getInt(result.getColumnIndex(URGENT).toInt())
-                val bought=result.getInt(result.getColumnIndex(BOUGHT).toInt())
-                itemList.add(Item(id,name,details,qty,size, urgent,bought))
-            }while (result.moveToNext())
-        }
-        result.close()
-        db.close()
-        return itemList
     }
 
     fun getItem(itemID:Int):Item?{
@@ -124,11 +107,11 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
         db.close()
     }
 
-
-    fun getItemsWhereBought(isBought:Boolean):MutableList<Item>{
+    fun getBoughtItems():MutableList<Item>{
         val db=this.readableDatabase
         val itemList= mutableListOf<Item>()
-        val query="SELECT * FROM $TABLE_NAME WHERE $BOUGHT=$isBought"
+        var query=""
+        query="SELECT * FROM $TABLE_NAME WHERE $BOUGHT=1"
         val result=db.rawQuery(query,null)
 
         if (result.moveToFirst()){
@@ -140,18 +123,25 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
                 val size=result.getString(result.getColumnIndex(SIZE).toInt())
                 val urgent=result.getInt(result.getColumnIndex(URGENT).toInt())
                 val bought=result.getInt(result.getColumnIndex(BOUGHT).toInt())
-                itemList.add(Item(id,name,details,qty,size, urgent,bought))
+                val date_bought=result.getString(result.getColumnIndex(DATE_BOUGHT).toInt())
+                itemList.add(Item(id,name,details,qty,size, urgent,bought,date_bought))
             }while (result.moveToNext())
         }
+
         result.close()
         db.close()
         return itemList
     }
 
-    fun getItemsWhereUrgent(isUrgent:Boolean):MutableList<Item>{
+    fun getUnboughtItems(urgentOnly:Int):MutableList<Item>{
         val db=this.readableDatabase
         val itemList= mutableListOf<Item>()
-        val query="SELECT * FROM $TABLE_NAME WHERE $URGENT=$isUrgent"
+        var query=""
+        query=if (urgentOnly==1){
+            "SELECT * FROM $TABLE_NAME WHERE $BOUGHT=0 AND $URGENT=1"
+        }else{
+            "SELECT * FROM $TABLE_NAME WHERE $BOUGHT=0"
+        }
         val result=db.rawQuery(query,null)
 
         if (result.moveToFirst()){
@@ -166,6 +156,7 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
                 itemList.add(Item(id,name,details,qty,size, urgent,bought))
             }while (result.moveToNext())
         }
+        Log.d("ITEMS","urgent:$urgentOnly ${itemList.toString()}")
         result.close()
         db.close()
         return itemList

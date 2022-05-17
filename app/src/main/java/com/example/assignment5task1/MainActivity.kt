@@ -8,20 +8,20 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(),HomeFragment.OnClick {
+class MainActivity : AppCompatActivity(),UnBoughtItemsFragment.OnClick {
 
     lateinit var bottomNav:BottomNavigationView
     private lateinit var resultLauncher:ActivityResultLauncher<Intent>
-    private lateinit var homeFragment:HomeFragment
+    private lateinit var unBoughtItemsFragment:UnBoughtItemsFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        homeFragment=HomeFragment()
-        supportFragmentManager.beginTransaction().add(R.id.root,homeFragment).commit()
+        supportFragmentManager.beginTransaction().add(R.id.root,UnBoughtItemsFragment.newInstance(0)).commit()
         resultLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             if (it.resultCode==Activity.RESULT_OK){
-                supportFragmentManager.beginTransaction().replace(R.id.root,HomeFragment()).commit()
+                supportFragmentManager.popBackStack()
+                supportFragmentManager.beginTransaction().replace(R.id.root,UnBoughtItemsFragment.newInstance(0)).commit()
             }
         }
 
@@ -35,13 +35,15 @@ class MainActivity : AppCompatActivity(),HomeFragment.OnClick {
         startActivity(intent)
     }
 
-    override fun onRestart() {
-        super.onRestart()
-    }
+
 
     override fun addItemActivity() {
 
         val intent= Intent(this,ItemActivity::class.java)
         resultLauncher.launch(intent)
+    }
+
+    override fun goToUrgentList() {
+        supportFragmentManager.beginTransaction().replace(R.id.root,UnBoughtItemsFragment.newInstance(1)).addToBackStack(null).commit()
     }
 }

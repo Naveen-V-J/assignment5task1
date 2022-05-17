@@ -2,10 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/urgentListItemContainer"
+    android:id="@+id/bought_item_row_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/urgentImageView"
@@ -14,7 +13,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/urgent"
+        app:srcCompat="@drawable/bought"
         android:layout_marginStart="4dp"/>
 
     <TextView
@@ -43,21 +42,30 @@
         android:id="@+id/itemSizeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="48dp"
         android:text="Size: Default"
         app:layout_constraintBaseline_toBaselineOf="@+id/itemQtyTextView"
         app:layout_constraintStart_toEndOf="@+id/itemQtyTextView" />
 
-    <Switch
-        android:id="@+id/itemBoughtSwitch"
+
+    <TextView
+        android:id="@+id/date_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:text="@string/bought_text"
-        app:layout_constraintBottom_toBottomOf="@+id/itemQtyTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/itemNameTextView"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        android:text="Date Bought:"
+        android:textStyle="bold"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/itemSizeTextView"
+        app:layout_constraintStart_toEndOf="@+id/itemSizeTextView" />
+
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="24 Aug 2020"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/date_heading"
+        app:layout_constraintStart_toEndOf="@+id/date_heading" />
 
     <View
         android:id="@+id/divider"
@@ -68,6 +76,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemSizeTextView" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

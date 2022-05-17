@@ -51,7 +51,7 @@ class ItemAdapter(var itemList:MutableList<Item>): RecyclerView.Adapter<ItemAdap
         holder.itemQtyTextView.setText("Qty: ${item.qty}")
         holder.itemSizeTextView.setText("Size: ${item.size}")
         holder.itemBoughtSwitch.setOnCheckedChangeListener { _, _ ->
-
+            onItemBought(item)
         }
     }
 

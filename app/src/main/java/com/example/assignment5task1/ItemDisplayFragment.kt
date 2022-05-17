@@ -1,6 +1,7 @@
 package com.example.assignment5task1
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView

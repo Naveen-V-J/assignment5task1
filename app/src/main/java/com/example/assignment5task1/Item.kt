@@ -7,4 +7,10 @@ data class Item(val id: Int,
     constructor(id:Int, name: String,details: String,qty: Int,size: String,urgent: Int,bought: Int):this(id,name,details,qty,size,urgent,bought,"")
     constructor(name: String,details: String,qty: Int,size: String,urgent: Int,bought: Int,dateBought: String):this(-1,name,details,qty,size,urgent,bought,dateBought)
     constructor(name: String,details: String,qty: Int,size: String,urgent: Int,bought: Int):this(-1,name,details,qty,size,urgent,bought,"")
+
+    override fun toString(): String {
+        return "Item(id=$id, name='$name', details='$details', qty=$qty, size='$size', urgent=$urgent, bought=$bought, dateBought='$dateBought')"
+    }
+
+
 }

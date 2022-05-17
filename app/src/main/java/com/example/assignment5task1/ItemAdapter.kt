@@ -14,7 +14,6 @@ class ItemAdapter(var itemList:MutableList<Item>): RecyclerView.Adapter<ItemAdap
 
     var onItemClick: (Item) -> Unit = {}
     var onItemLongClick: (Item) -> Unit = {}
-    var onAddItemClicked = {}
     var onItemBought: (Item) -> Unit = {}
 
     class ViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
@@ -23,7 +22,6 @@ class ItemAdapter(var itemList:MutableList<Item>): RecyclerView.Adapter<ItemAdap
         val itemSizeTextView=itemView.findViewById<TextView>(R.id.itemSizeTextView)
         @SuppressLint("UseSwitchCompatOrMaterialCode")
         val itemBoughtSwitch=itemView.findViewById<Switch>(R.id.itemBoughtSwitch)
-        val addItemFab=itemView.findViewById<FloatingActionButton>(R.id.addItemFab)
         val urgentImageView=itemView.findViewById<ImageView>(R.id.urgentImageView)
 
     }
@@ -54,9 +52,6 @@ class ItemAdapter(var itemList:MutableList<Item>): RecyclerView.Adapter<ItemAdap
         holder.itemSizeTextView.setText("Size: ${item.size}")
         holder.itemBoughtSwitch.setOnCheckedChangeListener { _, _ ->
 
-        }
-        holder.addItemFab.setOnClickListener(){
-            onAddItemClicked()
         }
     }
 

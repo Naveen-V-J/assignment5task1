@@ -1,6 +1,7 @@
 package com.example.assignment5task1
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,29 +9,35 @@ import android.view.ViewGroup
 import android.widget.*
 
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_ITEM_ID = "id"
 
 class ItemEditFragment : Fragment() {
 
-    private var param1: String? = null
-    private var param2: String? = null
+    interface OnClick{
+        fun returnToDisplayFragment(itemID: Int)
+    }
+    private lateinit var callback:OnClick
 
+    private var itemID: Int? = null
+    private lateinit var item:Item
+
+    private lateinit var dbHelper: DBHelper
     private lateinit var editItemDisplay:EditText
     private lateinit var editItemDetailsDisplay:EditText
     private lateinit var arrowDownImageView:ImageView
     private lateinit var arrowUpImageView:ImageView
     private lateinit var editItemQtyDisplay:TextView
-    private lateinit var sizeSpinner:TextView
+    private lateinit var sizeSpinner:Spinner
     private lateinit var editUrgentCheckBox:CheckBox
     private lateinit var editToListButton:Button
-
+    private var qty=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dbHelper= DBHelper(requireContext())
+        callback=activity as OnClick
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            itemID = it.getInt(ARG_ITEM_ID)
         }
     }
 
@@ -40,7 +47,10 @@ class ItemEditFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view=inflater.inflate(R.layout.fragment_item_edit, container, false)
+        Log.d("EDITFRAG","LAUNCHED")
+
         initUI(view)
+
         return view
     }
 
@@ -54,21 +64,86 @@ class ItemEditFragment : Fragment() {
         editUrgentCheckBox=view.findViewById(R.id.editUrgentCheckBox)
         editToListButton=view.findViewById(R.id.editToListButton)
 
-        //get item detials from db or as bundle or both?
+        //get item from db
+        item= dbHelper.getItem(itemID!!)!!
 
         //display item details on the views
+        editItemDisplay.setText(item.name)
+        editItemDetailsDisplay.setText(item.details)
+        qty= item.qty
+        editItemQtyDisplay.setText(qty.toString())
+        editUrgentCheckBox.isChecked = item.urgent ==1
+
+
+
+        val arrayAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.sizes_array,
+            android.R.layout.simple_spinner_item
+        )
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        sizeSpinner.adapter=arrayAdapter
+        sizeSpinner.setSelection(arrayAdapter.getPosition(item.size))
+
+        if (qty==1){
+            arrowDownImageView.isEnabled=false
+        }
+        arrowDownImageView.setOnClickListener{
+            onClickDown()
+        }
+        arrowUpImageView.setOnClickListener {
+            onClickUp()
+        }
 
         //set on click listener to edit button
+        editToListButton.setOnClickListener{
+            if (validateInput()){
+                editItem()
+                callback.returnToDisplayFragment(itemID!!)
+            }
+        }
+
+    }
+
+    private fun validateInput(): Boolean {
+        if (editItemDisplay.text.isNullOrEmpty()){
+            editItemDisplay.setError("Please enter the item to be purchased")
+            return false
+        }else{
+            return true
+        }
+    }
+
+    private fun editItem(){
+        var isUrgent = if (editUrgentCheckBox.isChecked){
+            1
+        }else
+            0
+        val newItem = Item(itemID!!,editItemDisplay.text.toString(),editItemDetailsDisplay.text.toString(),editItemQtyDisplay.text.toString().toInt(),sizeSpinner.selectedItem.toString(),isUrgent,item.bought)
+        dbHelper.updateItem(newItem)
+
+    }
+
+    fun onClickUp(){
+        qty+=1
+        editItemQtyDisplay.setText(qty.toString())
+        arrowDownImageView.isEnabled=true
+    }
+
+    fun onClickDown(){
+        qty-=1
+        editItemQtyDisplay.setText(qty.toString())
+        if (qty==1)
+            arrowDownImageView.isEnabled=false
 
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(itemID: Int) =
             ItemEditFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putInt(ARG_ITEM_ID, itemID)
                 }
             }
     }

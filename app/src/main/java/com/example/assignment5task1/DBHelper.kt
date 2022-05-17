@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import java.util.*
 
 class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VERSION) {
@@ -23,7 +24,7 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val query="CREATE TABLE $TABLE_NAME($ID INTEGER PRIMARY KEY, $NAME TEXT, $DETAILS TEXT, $QTY INTEGER, $SIZE TEXT, $URGENT INTEGER, $BOUGHT INTEGER, $DATE_BOUGHT TEXT)"
+        val query="CREATE TABLE $TABLE_NAME($ID INTEGER PRIMARY KEY, $NAME TEXT, $DETAILS BLOB, $QTY INTEGER, $SIZE TEXT, $URGENT INTEGER, $BOUGHT INTEGER, $DATE_BOUGHT TEXT)"
         db?.execSQL(query)
     }
 
@@ -79,11 +80,11 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
             do{
                 val id=result.getInt(result.getColumnIndex(ID).toInt())
                 val name=result.getString(result.getColumnIndex(NAME).toInt())
-                val details=result.getString(result.getColumnIndex(ID).toInt())
-                val qty=result.getInt(result.getColumnIndex(ID).toInt())
-                val size=result.getString(result.getColumnIndex(ID).toInt())
-                val urgent=result.getInt(result.getColumnIndex(ID).toInt())
-                val bought=result.getInt(result.getColumnIndex(ID).toInt())
+                val details=result.getString(result.getColumnIndex(DETAILS).toInt())
+                val qty=result.getInt(result.getColumnIndex(QTY).toInt())
+                val size=result.getString(result.getColumnIndex(SIZE).toInt())
+                val urgent=result.getInt(result.getColumnIndex(URGENT).toInt())
+                val bought=result.getInt(result.getColumnIndex(BOUGHT).toInt())
                 itemList.add(Item(id,name,details,qty,size, urgent,bought))
             }while (result.moveToNext())
         }
@@ -100,11 +101,11 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
         if (result.moveToFirst()){
             val id=result.getInt(result.getColumnIndex(ID).toInt())
             val name=result.getString(result.getColumnIndex(NAME).toInt())
-            val details=result.getString(result.getColumnIndex(ID).toInt())
-            val qty=result.getInt(result.getColumnIndex(ID).toInt())
-            val size=result.getString(result.getColumnIndex(ID).toInt())
-            val urgent=result.getInt(result.getColumnIndex(ID).toInt())
-            val bought=result.getInt(result.getColumnIndex(ID).toInt())
+            val details=result.getString(result.getColumnIndex(DETAILS).toInt())
+            val qty=result.getInt(result.getColumnIndex(QTY).toInt())
+            val size=result.getString(result.getColumnIndex(SIZE).toInt())
+            val urgent=result.getInt(result.getColumnIndex(URGENT).toInt())
+            val bought=result.getInt(result.getColumnIndex(BOUGHT).toInt())
             result.close()
             db.close()
             return Item(
@@ -134,11 +135,11 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
             do{
                 val id=result.getInt(result.getColumnIndex(ID).toInt())
                 val name=result.getString(result.getColumnIndex(NAME).toInt())
-                val details=result.getString(result.getColumnIndex(ID).toInt())
-                val qty=result.getInt(result.getColumnIndex(ID).toInt())
-                val size=result.getString(result.getColumnIndex(ID).toInt())
-                val urgent=result.getInt(result.getColumnIndex(ID).toInt())
-                val bought=result.getInt(result.getColumnIndex(ID).toInt())
+                val details=result.getString(result.getColumnIndex(DETAILS).toInt())
+                val qty=result.getInt(result.getColumnIndex(QTY).toInt())
+                val size=result.getString(result.getColumnIndex(SIZE).toInt())
+                val urgent=result.getInt(result.getColumnIndex(URGENT).toInt())
+                val bought=result.getInt(result.getColumnIndex(BOUGHT).toInt())
                 itemList.add(Item(id,name,details,qty,size, urgent,bought))
             }while (result.moveToNext())
         }
@@ -157,11 +158,11 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
             do{
                 val id=result.getInt(result.getColumnIndex(ID).toInt())
                 val name=result.getString(result.getColumnIndex(NAME).toInt())
-                val details=result.getString(result.getColumnIndex(ID).toInt())
-                val qty=result.getInt(result.getColumnIndex(ID).toInt())
-                val size=result.getString(result.getColumnIndex(ID).toInt())
-                val urgent=result.getInt(result.getColumnIndex(ID).toInt())
-                val bought=result.getInt(result.getColumnIndex(ID).toInt())
+                val details=result.getString(result.getColumnIndex(DETAILS).toInt())
+                val qty=result.getInt(result.getColumnIndex(QTY).toInt())
+                val size=result.getString(result.getColumnIndex(SIZE).toInt())
+                val urgent=result.getInt(result.getColumnIndex(URGENT).toInt())
+                val bought=result.getInt(result.getColumnIndex(BOUGHT).toInt())
                 itemList.add(Item(id,name,details,qty,size, urgent,bought))
             }while (result.moveToNext())
         }

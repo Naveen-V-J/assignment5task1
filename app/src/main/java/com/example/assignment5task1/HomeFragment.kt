@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 private const val ARG_PARAM1 = "param1"
@@ -25,7 +27,7 @@ class HomeFragment : Fragment() {
     private lateinit var dbHelper: DBHelper
     private lateinit var recyclerView:RecyclerView
     private lateinit var adapter:ItemAdapter
-    private lateinit var itemList: MutableList<Item>
+    private lateinit var fab:FloatingActionButton
     private lateinit var callback:OnClick
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,9 +45,14 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view= inflater.inflate(R.layout.fragment_home, container, false)
         callback=activity as OnClick
-        populateItemList()
         recyclerView=view.findViewById(R.id.itemListRecyclerView)
-        adapter=ItemAdapter(itemList)
+        recyclerView.layoutManager=LinearLayoutManager(requireContext())
+        fab=view.findViewById(R.id.addItemFab)
+        fab.setOnClickListener(){
+            callback.addItemActivity()
+        }
+
+        adapter=ItemAdapter(dbHelper.getItemsWhereBought(false))
         adapter.onItemClick={
             callback.displayItemActivity(it.id)
 
@@ -53,9 +60,7 @@ class HomeFragment : Fragment() {
         adapter.onItemLongClick={
             deleteItem(it)
         }
-        adapter.onAddItemClicked={
-            callback.addItemActivity()
-        }
+
         adapter.onItemBought={
             onItemBought(it)
         }
@@ -71,19 +76,24 @@ class HomeFragment : Fragment() {
 
     private fun deleteItem(item: Item){
         val dialogBuilder = AlertDialog.Builder(requireContext())
-        dialogBuilder.setMessage("Are you want to delete ${item.name} from the list?").setCancelable(true)
+        dialogBuilder.setMessage("Are you sure you want to delete ${item.name} from the list?").setCancelable(true)
             .setPositiveButton("DELETE", DialogInterface.OnClickListener { dialogInterface, i ->
             dbHelper.deleteItem(item.id)
             adapter.itemList=dbHelper.getItemsWhereBought(false)
             adapter.notifyDataSetChanged()
             dialogInterface.dismiss()})
             .setNegativeButton("CANCEL", DialogInterface.OnClickListener { dialogInterface, i -> dialogInterface.cancel() })
+        dialogBuilder.setTitle("Delete item")
+        dialogBuilder.setIcon(R.drawable.important).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapter.itemList=dbHelper.getItemsWhereBought(false)
+        adapter.notifyDataSetChanged()
 
     }
 
-    private fun populateItemList() {
-        itemList=dbHelper.getItemsWhereBought(false)
-    }
 
     companion object {
         @JvmStatic

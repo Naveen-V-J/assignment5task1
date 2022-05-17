@@ -62,20 +62,21 @@
         app:layout_constraintStart_toStartOf="@id/itemDetailsDisplay"
         android:layout_marginTop="8dp"/>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/arrowUpImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/itemQtyDisplay"
         app:layout_constraintTop_toTopOf="@+id/arrowDownImageView"
         app:srcCompat="@drawable/arrow_up"
+        android:backgroundTint="@color/white"
         android:layout_marginStart="4dp"/>
 
     <TextView
         android:id="@+id/itemQtyDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="1"
+        android:text="1"
         android:paddingHorizontal="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/arrowDownImageView"
         app:layout_constraintStart_toEndOf="@+id/arrowDownImageView"
@@ -83,13 +84,14 @@
         android:layout_marginStart="4dp"
         />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/arrowDownImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@+id/newItemQtyTextView"
         app:layout_constraintTop_toBottomOf="@+id/newItemQtyTextView"
         app:srcCompat="@drawable/arrow_down"
+        android:backgroundTint="@color/white"
         android:layout_marginTop="8dp"/>
 
     <TextView

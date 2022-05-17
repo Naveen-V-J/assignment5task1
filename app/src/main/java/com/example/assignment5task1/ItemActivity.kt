@@ -4,8 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 
-class ItemActivity : AppCompatActivity(),ItemAddFragment.OnClick,ItemDisplayFragment.OnClick {
+class ItemActivity : AppCompatActivity(),ItemAddFragment.OnClick,ItemDisplayFragment.OnClick,ItemEditFragment.OnClick {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +25,7 @@ class ItemActivity : AppCompatActivity(),ItemAddFragment.OnClick,ItemDisplayFrag
 
     }
 
-    override fun returnToMainActivity() {
+    override fun returnResultToMainActivity() {
         val intent= Intent()
         setResult(Activity.RESULT_OK,intent)
         finish()
@@ -32,7 +33,14 @@ class ItemActivity : AppCompatActivity(),ItemAddFragment.OnClick,ItemDisplayFrag
 
     override fun editItem(itemID: Int) {
         val itemEditFragment=ItemEditFragment.newInstance(itemID)
+        Log.d("ITEM ACTIVITY", "IN editItem id: $itemID")
         supportFragmentManager.beginTransaction().replace(R.id.item_activity_layout,itemEditFragment).addToBackStack(null).commit()
+    }
+
+    override fun returnToDisplayFragment(itemID: Int) {
+        val itemDisplayFragment=ItemDisplayFragment.newInstance(itemID)
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.beginTransaction().replace(R.id.item_activity_layout,itemDisplayFragment).commit()
     }
 
 

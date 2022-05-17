@@ -31,9 +31,8 @@
         android:id="@+id/itemQtyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ems="4"
         android:text="Qty: 1"
-        app:layout_constraintEnd_toStartOf="@+id/itemSizeTextView"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/urgentImageView"
         app:layout_constraintStart_toStartOf="@id/itemNameTextView"
@@ -43,33 +42,31 @@
         android:id="@+id/itemSizeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="48dp"
         android:text="Size: Default"
         app:layout_constraintBaseline_toBaselineOf="@+id/itemQtyTextView"
-        app:layout_constraintEnd_toStartOf="@+id/itemBoughtSwitch"
-        app:layout_constraintStart_toEndOf="@+id/itemQtyTextView"
-        android:layout_marginHorizontal="48dp"/>
+        app:layout_constraintStart_toEndOf="@+id/itemQtyTextView" />
 
     <Switch
         android:id="@+id/itemBoughtSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:text="@string/bought_text"
         app:layout_constraintBottom_toBottomOf="@+id/itemQtyTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/itemSizeTextView"
         app:layout_constraintTop_toTopOf="@+id/itemNameTextView"
-        android:layout_marginHorizontal="24dp"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
+        android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemSizeTextView"
-        android:layout_marginTop="8dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/itemSizeTextView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

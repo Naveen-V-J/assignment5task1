@@ -62,12 +62,13 @@
         app:layout_constraintStart_toStartOf="@id/editItemDetailsDisplay"
         android:layout_marginTop="8dp"/>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/arrowUpImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/editItemQtyDisplay"
         app:layout_constraintTop_toTopOf="@+id/arrowDownImageView"
+        android:backgroundTint="@color/white"
         app:srcCompat="@drawable/arrow_up"
         android:layout_marginStart="4dp"/>
 
@@ -83,10 +84,11 @@
         android:layout_marginStart="4dp"
         />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/arrowDownImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
         app:layout_constraintStart_toStartOf="@+id/editItemQtyTextView"
         app:layout_constraintTop_toBottomOf="@+id/editItemQtyTextView"
         app:srcCompat="@drawable/arrow_down"

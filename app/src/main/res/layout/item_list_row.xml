@@ -43,10 +43,30 @@
         android:id="@+id/itemSizeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="48dp"
+
         android:text="Size: Default"
         app:layout_constraintBaseline_toBaselineOf="@+id/itemQtyTextView"
         app:layout_constraintStart_toEndOf="@+id/itemQtyTextView" />
+
+    <TextView
+        android:id="@+id/date_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date Bought:"
+        android:textStyle="bold"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/itemSizeTextView"
+        app:layout_constraintStart_toEndOf="@+id/itemSizeTextView"
+        />
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="24 Aug 2020"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/date_heading"
+        app:layout_constraintStart_toEndOf="@+id/date_heading"
+        />
 
     <Switch
         android:id="@+id/itemBoughtSwitch"

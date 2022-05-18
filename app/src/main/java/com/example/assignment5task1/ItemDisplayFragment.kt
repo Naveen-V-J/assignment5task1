@@ -22,6 +22,7 @@ class ItemDisplayFragment : Fragment() {
     private lateinit var itemQtyDisplay:TextView
     private lateinit var itemSizeDisplay:TextView
     private lateinit var urgentIconDisplay:ImageView
+    private lateinit var item: Item
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,13 +52,13 @@ class ItemDisplayFragment : Fragment() {
         itemSizeDisplay=view.findViewById(R.id.itemSizeDisplay)
         urgentIconDisplay=view.findViewById(R.id.urgentIconDisplay)
 
-        val item=dbHelper.getItem(itemID!!)
+        item=dbHelper.getItem(itemID!!)!!
 
-        itemDisplay.setText(item?.name)
-        itemDetailsDisplay.setText(item?.details)
-        itemQtyDisplay.setText(item?.qty.toString())
-        itemSizeDisplay.setText(item?.size)
-        if (item?.urgent!!.equals(0)){
+        itemDisplay.setText(item.name)
+        itemDetailsDisplay.setText(item.details)
+        itemQtyDisplay.setText(item.qty.toString())
+        itemSizeDisplay.setText(item.size)
+        if (item.urgent.equals(0)){
             urgentIconDisplay.setImageResource(R.drawable.unchecked)
         }else{
             urgentIconDisplay.setImageResource(R.drawable.checked)
@@ -65,7 +66,9 @@ class ItemDisplayFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.appbar_menu, menu)
+        if (item.bought==0){
+            inflater.inflate(R.menu.appbar_menu, menu)
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 

@@ -115,11 +115,15 @@ class ItemEditFragment : Fragment() {
     }
 
     private fun editItem(){
-        var isUrgent = if (editUrgentCheckBox.isChecked){
+        if (item.bought==1){
+            return
+        }
+        val isUrgent = if (editUrgentCheckBox.isChecked){
             1
         }else
             0
         val newItem = Item(itemID!!,editItemDisplay.text.toString(),editItemDetailsDisplay.text.toString(),editItemQtyDisplay.text.toString().toInt(),sizeSpinner.selectedItem.toString(),isUrgent,item.bought)
+
         dbHelper.updateItem(newItem)
 
     }

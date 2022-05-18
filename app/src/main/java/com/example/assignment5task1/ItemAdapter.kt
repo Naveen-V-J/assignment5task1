@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class ItemAdapter(var itemList:MutableList<Item>): RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+class ItemAdapter(var itemList:MutableList<Item>, val isBoughtLayout:Boolean): RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
     var onItemClick: (Item) -> Unit = {}
     var onItemLongClick: (Item) -> Unit = {}
@@ -20,9 +20,16 @@ class ItemAdapter(var itemList:MutableList<Item>): RecyclerView.Adapter<ItemAdap
         val itemNameTextView=itemView.findViewById<TextView>(R.id.itemNameTextView)
         val itemQtyTextView=itemView.findViewById<TextView>(R.id.itemQtyTextView)
         val itemSizeTextView=itemView.findViewById<TextView>(R.id.itemSizeTextView)
+
+        val urgentImageView=itemView.findViewById<ImageView>(R.id.urgentImageView)
+
+        //not present in bought item list
         @SuppressLint("UseSwitchCompatOrMaterialCode")
         val itemBoughtSwitch=itemView.findViewById<Switch>(R.id.itemBoughtSwitch)
-        val urgentImageView=itemView.findViewById<ImageView>(R.id.urgentImageView)
+
+        //present in bought item list
+        val dateHeading=itemView.findViewById<TextView>(R.id.date_heading)
+        val dateTextView=itemView.findViewById<TextView>(R.id.date_heading)
 
     }
 
@@ -32,27 +39,41 @@ class ItemAdapter(var itemList:MutableList<Item>): RecyclerView.Adapter<ItemAdap
         view.setOnClickListener{
             onItemClick(itemList.get(viewHolder.adapterPosition))
         }
-        view.setOnLongClickListener {
-            onItemLongClick(itemList.get(viewHolder.adapterPosition))
-            true
+        if (!isBoughtLayout){
+            view.setOnLongClickListener {
+                onItemLongClick(itemList.get(viewHolder.adapterPosition))
+                true
+            }
         }
         return viewHolder
     }
 
     override fun onBindViewHolder(holder: ItemAdapter.ViewHolder, position: Int) {
         val item = itemList.get(position)
-        if (item.urgent.equals(1)){
-            holder.urgentImageView.setImageResource(R.drawable.urgent)
-        }else{
-            holder.urgentImageView.setImageResource(R.drawable.buy)
-        }
 
         holder.itemNameTextView.setText(item.name)
         holder.itemQtyTextView.setText("Qty: ${item.qty}")
         holder.itemSizeTextView.setText("Size: ${item.size}")
-        holder.itemBoughtSwitch.setOnCheckedChangeListener { _, _ ->
-            onItemBought(item)
+
+        if (isBoughtLayout){
+            holder.urgentImageView.setImageResource(R.drawable.bought)
+            holder.itemBoughtSwitch.visibility=View.GONE
+            holder.dateTextView.setText(item.dateBought)
+
+        }else{
+            holder.dateTextView.visibility=View.GONE
+            holder.dateHeading.visibility=View.GONE
+            if (item.urgent.equals(1)){
+                holder.urgentImageView.setImageResource(R.drawable.urgent)
+            }else{
+                holder.urgentImageView.setImageResource(R.drawable.buy)
+            }
+
+            holder.itemBoughtSwitch.setOnCheckedChangeListener { _, _ ->
+                onItemBought(item)
+            }
         }
+
     }
 
 

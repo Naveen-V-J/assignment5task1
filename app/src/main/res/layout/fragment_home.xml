@@ -5,7 +5,7 @@
     android:id="@+id/home_fragment_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UnBoughtItemsFragment">
+    tools:context=".ItemListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/itemListRecyclerView"
@@ -28,14 +28,34 @@
         tools:ignore="ContentDescription" />
 
     <Button
-        android:id="@+id/swapButton"
+        android:id="@+id/swapButtonUrgent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="swap fragment"
+        android:text="Urgent"
         app:layout_constraintBottom_toBottomOf="@+id/itemListRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="20dp"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/swapButtonHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Home"
+        app:layout_constraintBottom_toTopOf="@+id/swapButtonComp"
+        app:layout_constraintEnd_toEndOf="@+id/swapButtonComp"
+        app:layout_constraintStart_toStartOf="@+id/swapButtonComp" />
+
+    <Button
+        android:id="@+id/swapButtonComp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Complete"
+        app:layout_constraintBottom_toTopOf="@+id/swapButtonUrgent"
+        app:layout_constraintEnd_toEndOf="@+id/swapButtonUrgent"
+        app:layout_constraintStart_toStartOf="@+id/swapButtonUrgent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

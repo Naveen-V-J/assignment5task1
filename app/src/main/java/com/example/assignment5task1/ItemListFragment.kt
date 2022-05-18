@@ -14,28 +14,38 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 private const val ARG_URGENT = "urgent"
+private const val ARG_BOUGHT = "bought"
 
-class UnBoughtItemsFragment : Fragment() {
+class ItemListFragment : Fragment() {
     interface OnClick{
         fun displayItemActivity(itemID: Int)
         fun addItemActivity()
         fun goToUrgentList()
+        fun goToCompletedList()
+        fun goToHome()
     }
 
     private var onlyUrgent: Int? = null
+    private var onlyBought: Boolean?=null
 
     private lateinit var dbHelper: DBHelper
     private lateinit var recyclerView:RecyclerView
     private lateinit var adapter:ItemAdapter
     private lateinit var fab:FloatingActionButton
     private lateinit var callback:OnClick
-    private lateinit var swapButton:Button
+
+
+    private lateinit var urgentButton:Button
+    private lateinit var completeButton: Button
+    private lateinit var homeButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dbHelper=DBHelper(requireActivity())
         callback=activity as OnClick
         arguments?.let {
             onlyUrgent = it.getInt(ARG_URGENT)
+            onlyBought=it.getBoolean(ARG_BOUGHT)
         }
     }
 
@@ -45,15 +55,29 @@ class UnBoughtItemsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view= inflater.inflate(R.layout.fragment_home, container, false)
-        swapButton=view.findViewById(R.id.swapButton)
-        if (onlyUrgent==1){
-            swapButton.isEnabled=false
-            swapButton.visibility=View.GONE
-        }else{
-            swapButton.setOnClickListener {
-                callback.goToUrgentList()
-            }
+        urgentButton=view.findViewById(R.id.swapButtonUrgent)
+        urgentButton.setOnClickListener {
+            callback.goToUrgentList()
         }
+        completeButton=view.findViewById(R.id.swapButtonComp)
+        completeButton.setOnClickListener {
+            callback.goToCompletedList()
+        }
+        homeButton=view.findViewById(R.id.swapButtonHome)
+        homeButton.setOnClickListener{
+            callback.goToHome()
+        }
+
+        if (onlyBought!!){
+            initUIBought(view)
+        }else{
+            initUIUnBought(view)
+        }
+        return view
+    }
+
+    private fun initUIBought(view: View) {
+
         recyclerView=view.findViewById(R.id.itemListRecyclerView)
         recyclerView.layoutManager=LinearLayoutManager(requireContext())
         fab=view.findViewById(R.id.addItemFab)
@@ -61,7 +85,23 @@ class UnBoughtItemsFragment : Fragment() {
             callback.addItemActivity()
         }
 
-        adapter=ItemAdapter(dbHelper.getUnboughtItems(onlyUrgent!!))
+        adapter=ItemAdapter(dbHelper.getBoughtItems(),onlyBought!!)
+        adapter.onItemClick={
+            callback.displayItemActivity(it.id)
+
+        }
+        recyclerView.adapter=adapter
+    }
+
+    private fun initUIUnBought(view: View){
+        recyclerView=view.findViewById(R.id.itemListRecyclerView)
+        recyclerView.layoutManager=LinearLayoutManager(requireContext())
+        fab=view.findViewById(R.id.addItemFab)
+        fab.setOnClickListener(){
+            callback.addItemActivity()
+        }
+
+        adapter=ItemAdapter(dbHelper.getUnboughtItems(onlyUrgent!!),onlyBought!!)
         adapter.onItemClick={
             callback.displayItemActivity(it.id)
 
@@ -75,7 +115,6 @@ class UnBoughtItemsFragment : Fragment() {
             onItemBought(it)
         }
         recyclerView.adapter=adapter
-        return view
     }
 
     private fun onItemBought(item: Item) {
@@ -99,7 +138,11 @@ class UnBoughtItemsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        adapter.itemList=dbHelper.getUnboughtItems(onlyUrgent!!)
+        if (onlyBought!!){
+            adapter.itemList=dbHelper.getBoughtItems()
+        }else{
+            adapter.itemList=dbHelper.getUnboughtItems(onlyUrgent!!)
+        }
         adapter.notifyDataSetChanged()
 
     }
@@ -107,10 +150,11 @@ class UnBoughtItemsFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(onlyUrgent: Int) =
-            UnBoughtItemsFragment().apply {
+        fun newInstance(onlyUrgent: Int, onlyBought:Boolean) =
+            ItemListFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_URGENT, onlyUrgent)
+                    putBoolean(ARG_BOUGHT,onlyBought)
                 }
             }
     }

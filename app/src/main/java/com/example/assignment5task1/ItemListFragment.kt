@@ -6,38 +6,30 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 private const val ARG_URGENT = "urgent"
 private const val ARG_BOUGHT = "bought"
+private const val ARG_FRAGMENT_TAG="tag"
 
 class ItemListFragment : Fragment() {
     interface OnClick{
         fun displayItemActivity(itemID: Int)
-        fun addItemActivity()
-        fun goToUrgentList()
-        fun goToCompletedList()
-        fun goToHome()
+        fun setSelectedMenuItem(fragmentTag:String)
     }
 
     private var onlyUrgent: Int? = null
     private var onlyBought: Boolean?=null
+    private var fragmentTag: String?=null
 
     private lateinit var dbHelper: DBHelper
     private lateinit var recyclerView:RecyclerView
     private lateinit var adapter:ItemAdapter
-    private lateinit var fab:FloatingActionButton
     private lateinit var callback:OnClick
 
-
-    private lateinit var urgentButton:Button
-    private lateinit var completeButton: Button
-    private lateinit var homeButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +38,7 @@ class ItemListFragment : Fragment() {
         arguments?.let {
             onlyUrgent = it.getInt(ARG_URGENT)
             onlyBought=it.getBoolean(ARG_BOUGHT)
+            fragmentTag=it.getString(ARG_FRAGMENT_TAG)
         }
     }
 
@@ -54,20 +47,7 @@ class ItemListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view= inflater.inflate(R.layout.fragment_home, container, false)
-        urgentButton=view.findViewById(R.id.swapButtonUrgent)
-        urgentButton.setOnClickListener {
-            callback.goToUrgentList()
-        }
-        completeButton=view.findViewById(R.id.swapButtonComp)
-        completeButton.setOnClickListener {
-            callback.goToCompletedList()
-        }
-        homeButton=view.findViewById(R.id.swapButtonHome)
-        homeButton.setOnClickListener{
-            callback.goToHome()
-        }
-
+        val view= inflater.inflate(R.layout.fragment_item_list, container, false)
         if (onlyBought!!){
             initUIBought(view)
         }else{
@@ -80,10 +60,6 @@ class ItemListFragment : Fragment() {
 
         recyclerView=view.findViewById(R.id.itemListRecyclerView)
         recyclerView.layoutManager=LinearLayoutManager(requireContext())
-        fab=view.findViewById(R.id.addItemFab)
-        fab.setOnClickListener(){
-            callback.addItemActivity()
-        }
 
         adapter=ItemAdapter(dbHelper.getBoughtItems(),onlyBought!!)
         adapter.onItemClick={
@@ -96,10 +72,6 @@ class ItemListFragment : Fragment() {
     private fun initUIUnBought(view: View){
         recyclerView=view.findViewById(R.id.itemListRecyclerView)
         recyclerView.layoutManager=LinearLayoutManager(requireContext())
-        fab=view.findViewById(R.id.addItemFab)
-        fab.setOnClickListener(){
-            callback.addItemActivity()
-        }
 
         adapter=ItemAdapter(dbHelper.getUnboughtItems(onlyUrgent!!),onlyBought!!)
         adapter.onItemClick={
@@ -138,6 +110,7 @@ class ItemListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        callback.setSelectedMenuItem(fragmentTag!!)
         if (onlyBought!!){
             adapter.itemList=dbHelper.getBoughtItems()
         }else{
@@ -145,16 +118,19 @@ class ItemListFragment : Fragment() {
         }
         adapter.notifyDataSetChanged()
 
+
+
     }
 
 
     companion object {
         @JvmStatic
-        fun newInstance(onlyUrgent: Int, onlyBought:Boolean) =
+        fun newInstance(onlyUrgent: Int, onlyBought:Boolean, fragmentTag: String) =
             ItemListFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_URGENT, onlyUrgent)
                     putBoolean(ARG_BOUGHT,onlyBought)
+                    putString(ARG_FRAGMENT_TAG,fragmentTag)
                 }
             }
     }

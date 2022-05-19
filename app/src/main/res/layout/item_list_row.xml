@@ -11,11 +11,11 @@
         android:id="@+id/urgentImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/urgent"
-        android:layout_marginStart="4dp"/>
+        tools:srcCompat="@drawable/urgent" />
 
     <TextView
         android:id="@+id/itemNameTextView"
@@ -34,6 +34,7 @@
         android:layout_height="wrap_content"
         android:ems="4"
         android:text="Qty: 1"
+        android:textSize="12sp"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/urgentImageView"
         app:layout_constraintStart_toStartOf="@id/itemNameTextView"
@@ -43,6 +44,7 @@
         android:id="@+id/itemSizeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="12sp"
 
         android:text="Size: Default"
         app:layout_constraintBaseline_toBaselineOf="@+id/itemQtyTextView"
@@ -52,21 +54,24 @@
         android:id="@+id/date_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="Date Bought:"
+        android:textSize="12sp"
+
         android:textStyle="bold"
-        android:layout_marginStart="8dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/itemSizeTextView"
-        app:layout_constraintStart_toEndOf="@+id/itemSizeTextView"
-        />
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/itemSizeTextView" />
+
     <TextView
         android:id="@+id/dateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="24 Aug 2020"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
+        android:textSize="12sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/date_heading"
         app:layout_constraintStart_toEndOf="@+id/date_heading"
-        />
+        tools:text="24 Aug 2020" />
 
     <Switch
         android:id="@+id/itemBoughtSwitch"

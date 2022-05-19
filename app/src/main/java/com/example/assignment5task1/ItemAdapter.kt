@@ -29,7 +29,7 @@ class ItemAdapter(var itemList:MutableList<Item>, val isBoughtLayout:Boolean): R
 
         //present in bought item list
         val dateHeading=itemView.findViewById<TextView>(R.id.date_heading)
-        val dateTextView=itemView.findViewById<TextView>(R.id.date_heading)
+        val dateTextView=itemView.findViewById<TextView>(R.id.dateTextView)
 
     }
 
@@ -51,10 +51,12 @@ class ItemAdapter(var itemList:MutableList<Item>, val isBoughtLayout:Boolean): R
     override fun onBindViewHolder(holder: ItemAdapter.ViewHolder, position: Int) {
         val item = itemList.get(position)
 
+
         holder.itemNameTextView.setText(item.name)
         holder.itemQtyTextView.setText("Qty: ${item.qty}")
         holder.itemSizeTextView.setText("Size: ${item.size}")
-
+        holder.itemBoughtSwitch.setOnCheckedChangeListener(null)
+        holder.itemBoughtSwitch.isChecked=false
         if (isBoughtLayout){
             holder.urgentImageView.setImageResource(R.drawable.bought)
             holder.itemBoughtSwitch.visibility=View.GONE
@@ -63,12 +65,14 @@ class ItemAdapter(var itemList:MutableList<Item>, val isBoughtLayout:Boolean): R
         }else{
             holder.dateTextView.visibility=View.GONE
             holder.dateHeading.visibility=View.GONE
+            holder.itemBoughtSwitch.setOnCheckedChangeListener(null)
+            holder.itemBoughtSwitch.isChecked=false
+
             if (item.urgent.equals(1)){
                 holder.urgentImageView.setImageResource(R.drawable.urgent)
             }else{
                 holder.urgentImageView.setImageResource(R.drawable.buy)
             }
-
             holder.itemBoughtSwitch.setOnCheckedChangeListener { _, _ ->
                 onItemBought(item)
             }

@@ -7,12 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-private const val ARG_URGENT = "urgent"
-private const val ARG_BOUGHT = "bought"
+private const val ARG_URGENT = "Urgent Items"
+private const val ARG_BOUGHT = "Items Bought"
 private const val ARG_FRAGMENT_TAG="tag"
 
 class ItemListFragment : Fragment() {
@@ -40,6 +41,7 @@ class ItemListFragment : Fragment() {
             onlyBought=it.getBoolean(ARG_BOUGHT)
             fragmentTag=it.getString(ARG_FRAGMENT_TAG)
         }
+
     }
 
     override fun onCreateView(
@@ -110,7 +112,9 @@ class ItemListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.setTitle(fragmentTag)
         callback.setSelectedMenuItem(fragmentTag!!)
+
         if (onlyBought!!){
             adapter.itemList=dbHelper.getBoughtItems()
         }else{

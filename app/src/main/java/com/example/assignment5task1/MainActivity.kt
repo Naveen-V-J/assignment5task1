@@ -11,9 +11,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity(),ItemListFragment.OnClick {
-    private val TAG_HOME_FRAGMENT="home"
-    private val TAG_URGENT_FRAGMENT="urgent"
-    private val TAG_COMPLETED_FRAGMENT="bought"
+    private val TAG_HOME_FRAGMENT="Shopping List"
+    private val TAG_URGENT_FRAGMENT="Urgent Items"
+    private val TAG_COMPLETED_FRAGMENT="Bought Items"
 
     private lateinit var bottomNav:BottomNavigationView
     private lateinit var fab:FloatingActionButton

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -119,6 +120,10 @@ class ItemAddFragment : Fragment() {
         if (qty==1)
             arrowDownImageView.isEnabled=false
 
+    }
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.setTitle("Add Item")
     }
 
     companion object {

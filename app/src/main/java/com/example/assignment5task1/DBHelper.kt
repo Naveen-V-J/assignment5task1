@@ -130,6 +130,9 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
 
         result.close()
         db.close()
+        itemList.sortBy {
+            it.name
+        }
         return itemList
     }
 
@@ -159,6 +162,9 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
         Log.d("ITEMS","urgent:$urgentOnly ${itemList.toString()}")
         result.close()
         db.close()
+        itemList.sortBy {
+            it.name
+        }
         return itemList
     }
 }

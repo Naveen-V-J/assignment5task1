@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 
 
 private const val ARG_ITEM_ID = "id"
@@ -30,7 +31,7 @@ class ItemEditFragment : Fragment() {
     private lateinit var sizeSpinner:Spinner
     private lateinit var editUrgentCheckBox:CheckBox
     private lateinit var editToListButton:Button
-    private var qty=0
+    private var qty=1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,9 +116,6 @@ class ItemEditFragment : Fragment() {
     }
 
     private fun editItem(){
-        if (item.bought==1){
-            return
-        }
         val isUrgent = if (editUrgentCheckBox.isChecked){
             1
         }else
@@ -140,6 +138,11 @@ class ItemEditFragment : Fragment() {
         if (qty==1)
             arrowDownImageView.isEnabled=false
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.setTitle("Edit Item")
     }
 
     companion object {

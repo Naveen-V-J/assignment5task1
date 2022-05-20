@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Bread"
+        android:textColor="@color/green_dark"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/urgentImageView"
@@ -34,6 +35,7 @@
         android:layout_height="wrap_content"
         android:ems="4"
         android:text="Qty: 1"
+        android:textColor="@color/green_dark"
         android:textSize="12sp"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@+id/urgentImageView"
@@ -45,8 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-
         android:text="Size: Default"
+        android:textColor="@color/green_dark"
         app:layout_constraintBaseline_toBaselineOf="@+id/itemQtyTextView"
         app:layout_constraintStart_toEndOf="@+id/itemQtyTextView" />
 
@@ -57,7 +59,7 @@
         android:layout_marginStart="16dp"
         android:text="Date Bought:"
         android:textSize="12sp"
-
+        android:textColor="@color/green_dark"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/itemSizeTextView"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -69,6 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textSize="12sp"
+        android:textColor="@color/green_dark"
         app:layout_constraintBaseline_toBaselineOf="@+id/date_heading"
         app:layout_constraintStart_toEndOf="@+id/date_heading"
         tools:text="24 Aug 2020" />
@@ -79,6 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:text="@string/bought_text"
+        android:textColor="@color/green_dark"
         app:layout_constraintBottom_toBottomOf="@+id/itemQtyTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/itemNameTextView"

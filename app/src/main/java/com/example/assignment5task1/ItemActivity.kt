@@ -16,10 +16,8 @@ class ItemActivity : AppCompatActivity(),ItemAddFragment.OnClick,ItemDisplayFrag
 
         val itemID=intent.getIntExtra("id",-1)
         if (itemID==-1){
-            supportActionBar?.setTitle("Add Item")
             supportFragmentManager.beginTransaction().add(R.id.item_activity_layout,ItemAddFragment()).commit()
         }else{
-            supportActionBar?.setTitle("Display Item")
             val itemDisplayFragment=ItemDisplayFragment.newInstance(itemID)
             supportFragmentManager.beginTransaction().add(R.id.item_activity_layout,itemDisplayFragment).commit()
         }
@@ -36,12 +34,10 @@ class ItemActivity : AppCompatActivity(),ItemAddFragment.OnClick,ItemDisplayFrag
     override fun editItem(itemID: Int) {
         val itemEditFragment=ItemEditFragment.newInstance(itemID)
         Log.d("ITEM ACTIVITY", "IN editItem id: $itemID")
-        supportActionBar?.setTitle("Edit Item")
         supportFragmentManager.beginTransaction().replace(R.id.item_activity_layout,itemEditFragment).addToBackStack(null).commit()
     }
 
     override fun returnToDisplayFragment(itemID: Int) {
-        supportActionBar?.setTitle("Display item")
         val itemDisplayFragment=ItemDisplayFragment.newInstance(itemID)
         supportFragmentManager.popBackStack()
         supportFragmentManager.beginTransaction().replace(R.id.item_activity_layout,itemDisplayFragment).commit()

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
 
@@ -75,6 +76,11 @@ class ItemDisplayFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         callback.editItem(itemID!!)
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.setTitle("Display Item")
     }
 
     companion object {

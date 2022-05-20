@@ -14,19 +14,23 @@
         android:textStyle="bold"
         android:textSize="16sp"
         android:text="Item"
+        android:textColor="@color/green_dark"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="16dp"
+        />
 
     <TextView
         android:id="@+id/itemDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="14"
+        android:ems="18"
         tools:text="Instant Noodles"
+        android:textColor="@color/green_dark"
         app:layout_constraintStart_toStartOf="@+id/newItemTextView"
         app:layout_constraintTop_toBottomOf="@+id/newItemTextView"
-        android:layout_marginTop="4dp"/>
+        android:layout_marginTop="4dp"
+        android:background="@drawable/edittext_shape"/>
 
     <TextView
         android:id="@+id/itemDetailsTextView"
@@ -34,8 +38,8 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="16sp"
-
         android:text="Details"
+        android:textColor="@color/green_dark"
         app:layout_constraintTop_toBottomOf="@id/itemDisplay"
         app:layout_constraintStart_toStartOf="@id/itemDisplay"
         android:layout_marginTop="8dp"/>
@@ -45,11 +49,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="20"
+        android:lines="4"
+        android:textColor="@color/green_dark"
         android:gravity="start|top"
         tools:text="Curry Flavour"
         app:layout_constraintStart_toStartOf="@+id/itemDetailsTextView"
         app:layout_constraintTop_toBottomOf="@+id/itemDetailsTextView"
-        android:layout_marginTop="4dp"/>
+        android:layout_marginTop="4dp"
+        android:background="@drawable/edittext_shape"/>
 
     <TextView
         android:id="@+id/newItemQtyTextView"
@@ -58,6 +65,7 @@
         android:textStyle="bold"
         android:textSize="16sp"
         android:text="Quantity:"
+        android:textColor="@color/green_dark"
         app:layout_constraintTop_toBottomOf="@id/itemDetailsDisplay"
         app:layout_constraintStart_toStartOf="@id/itemDetailsDisplay"
         android:layout_marginTop="8dp"/>
@@ -68,16 +76,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="2"
+        android:textColor="@color/green_dark"
         app:layout_constraintBaseline_toBaselineOf="@+id/newItemQtyTextView"
         app:layout_constraintStart_toEndOf="@+id/newItemQtyTextView"
         tools:text="1"
-        android:layout_marginStart="4dp"/>
+        android:layout_marginStart="4dp"
+        android:background="@drawable/edittext_shape"/>
 
     <TextView
         android:id="@+id/newItemSizeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Size:"
+        android:textColor="@color/green_dark"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/itemDetailsDisplay"
@@ -90,16 +101,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Default"
+        android:textColor="@color/green_dark"
         android:ems="6"
         app:layout_constraintBaseline_toBaselineOf="@+id/newItemSizeTextView"
         app:layout_constraintStart_toEndOf="@+id/newItemSizeTextView"
-        android:layout_marginStart="4dp"/>
+        android:layout_marginStart="4dp"
+        android:background="@drawable/edittext_shape"/>
 
     <TextView
         android:id="@+id/urgentDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Urgent:"
+        android:textColor="@color/green_dark"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/newItemQtyTextView"

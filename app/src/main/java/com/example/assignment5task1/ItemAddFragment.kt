@@ -61,7 +61,9 @@ class ItemAddFragment : Fragment() {
         urgentCheckBox=view.findViewById(R.id.urgentCheckBox)
         addToListButton=view.findViewById(R.id.addToListButton)
 
+        newItemQtyDisplay.setText(qty.toString())
 
+        //create and set adapter for spinner to select different sizes.
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.sizes_array,
@@ -121,6 +123,7 @@ class ItemAddFragment : Fragment() {
             arrowDownImageView.isEnabled=false
 
     }
+    //display Action bar title
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity).supportActionBar?.setTitle("Add Item")

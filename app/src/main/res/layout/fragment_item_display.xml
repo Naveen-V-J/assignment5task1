@@ -92,21 +92,22 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/itemDetailsDisplay"
-        app:layout_constraintHorizontal_bias="0.7"
-        app:layout_constraintStart_toEndOf="@id/newItemQtyTextView"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toEndOf="@+id/itemQtyDisplay"
         app:layout_constraintTop_toTopOf="@id/newItemQtyTextView" />
 
     <TextView
         android:id="@+id/itemSizeDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Default"
-        android:textColor="@color/green_dark"
-        android:ems="6"
-        app:layout_constraintBaseline_toBaselineOf="@+id/newItemSizeTextView"
-        app:layout_constraintStart_toEndOf="@+id/newItemSizeTextView"
         android:layout_marginStart="4dp"
-        android:background="@drawable/edittext_shape"/>
+        android:background="@drawable/edittext_shape"
+        android:ems="6"
+        android:textColor="@color/green_dark"
+        app:layout_constraintBaseline_toBaselineOf="@+id/newItemSizeTextView"
+        app:layout_constraintEnd_toEndOf="@+id/itemDetailsDisplay"
+        app:layout_constraintStart_toEndOf="@+id/newItemSizeTextView"
+        tools:text="Default" />
 
     <TextView
         android:id="@+id/urgentDisplay"

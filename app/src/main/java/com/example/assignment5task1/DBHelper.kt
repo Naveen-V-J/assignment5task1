@@ -63,15 +63,19 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
         db.close()
     }
 
+    //called from ItemListFragment when an item is bought
     fun updateItemBought(item: Item){
+        //get current date
         val date = LocalDate.now()
         val dateFormatter=DateTimeFormatter.ofPattern("dd MMM yyy")
+        //format the date in given format
         val formattedDate = date.format(dateFormatter)
-        Log.d("DATE",formattedDate)
         val db=this.writableDatabase
         val contentValues=ContentValues()
         contentValues.put(BOUGHT,item.bought)
+        //set date when item was bought
         contentValues.put(DATE_BOUGHT,formattedDate)
+        //update the values in database
         db.update(TABLE_NAME,contentValues,"$ID=?", arrayOf(item.id.toString()))
         db.close()
     }
@@ -101,12 +105,14 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
         }
     }
 
+    //delete item with given id
     fun deleteItem(id:Int){
         val db=this.writableDatabase
         db.delete(TABLE_NAME,"$ID=?", arrayOf(id.toString()))
         db.close()
     }
 
+    //get all items that were bought
     fun getBoughtItems():MutableList<Item>{
         val db=this.readableDatabase
         val itemList= mutableListOf<Item>()
@@ -135,7 +141,8 @@ class DBHelper(context:Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATA
         }
         return itemList
     }
-
+    //get items that haven't been bought.
+    //specify whether to only get urgent items with urgentOnly parameter(1 for only urgent items, 0 for both urgent and items that arent urgent)
     fun getUnboughtItems(urgentOnly:Int):MutableList<Item>{
         val db=this.readableDatabase
         val itemList= mutableListOf<Item>()

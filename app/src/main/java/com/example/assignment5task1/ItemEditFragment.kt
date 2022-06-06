@@ -37,6 +37,7 @@ class ItemEditFragment : Fragment() {
         super.onCreate(savedInstanceState)
         dbHelper= DBHelper(requireContext())
         callback=activity as OnClick
+        //retrieve id of item to be displayed
         arguments?.let {
             itemID = it.getInt(ARG_ITEM_ID)
         }
@@ -48,7 +49,6 @@ class ItemEditFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view=inflater.inflate(R.layout.fragment_item_edit, container, false)
-        Log.d("EDITFRAG","LAUNCHED")
 
         initUI(view)
 
@@ -65,7 +65,7 @@ class ItemEditFragment : Fragment() {
         editUrgentCheckBox=view.findViewById(R.id.editUrgentCheckBox)
         editToListButton=view.findViewById(R.id.editToListButton)
 
-        //get item from db
+        //get item from database
         item= dbHelper.getItem(itemID!!)!!
 
         //display item details on the views
@@ -76,7 +76,7 @@ class ItemEditFragment : Fragment() {
         editUrgentCheckBox.isChecked = item.urgent ==1
 
 
-
+        //create adapter for spinner with sizes_array from strings.xml
         val arrayAdapter = ArrayAdapter.createFromResource(
             requireContext(),
             R.array.sizes_array,
@@ -125,13 +125,13 @@ class ItemEditFragment : Fragment() {
         dbHelper.updateItem(newItem)
 
     }
-
+    //when click arrow up button
     fun onClickUp(){
         qty+=1
         editItemQtyDisplay.setText(qty.toString())
         arrowDownImageView.isEnabled=true
     }
-
+    //when click arrow down button
     fun onClickDown(){
         qty-=1
         editItemQtyDisplay.setText(qty.toString())
@@ -140,6 +140,7 @@ class ItemEditFragment : Fragment() {
 
     }
 
+    //set action bar title to "Edit Item"
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity).supportActionBar?.setTitle("Edit Item")

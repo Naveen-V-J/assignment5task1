@@ -66,6 +66,8 @@ class ItemDisplayFragment : Fragment() {
         }
     }
 
+    //inflate options menu with edit item button
+    //only when item is not bought
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         if (item.bought==0){
             inflater.inflate(R.menu.appbar_menu, menu)
@@ -73,11 +75,13 @@ class ItemDisplayFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    //when click edit item button callback to itemActivity to launch ItemEditFragment fragment
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         callback.editItem(itemID!!)
         return super.onOptionsItemSelected(item)
     }
 
+    //display action bar title
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity).supportActionBar?.setTitle("Display Item")

@@ -21,8 +21,9 @@ class ItemListFragment : Fragment() {
         fun displayItemActivity(itemID: Int)
         fun setSelectedMenuItem(fragmentTag:String)
     }
-
+    //if onlyUrgent is 1 then it is to display Urgent List page, if it is 0 then it is to display home page
     private var onlyUrgent: Int? = null
+    //if onlyBought is true then it is to display Completed List page
     private var onlyBought: Boolean?=null
     private var fragmentTag: String?=null
 
@@ -64,6 +65,7 @@ class ItemListFragment : Fragment() {
         recyclerView.layoutManager=LinearLayoutManager(requireContext())
 
         adapter=ItemAdapter(dbHelper.getBoughtItems(),onlyBought!!)
+        //when click on item display the item
         adapter.onItemClick={
             callback.displayItemActivity(it.id)
 
@@ -107,7 +109,7 @@ class ItemListFragment : Fragment() {
             dialogInterface.dismiss()})
             .setNegativeButton("CANCEL", DialogInterface.OnClickListener { dialogInterface, i -> dialogInterface.cancel() })
         dialogBuilder.setTitle("Delete item")
-        dialogBuilder.setIcon(R.drawable.important).show()
+        dialogBuilder.setIcon(R.drawable.ic_round_warning_24).show()
     }
 
     override fun onResume() {

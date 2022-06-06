@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ItemAdapter(var itemList:MutableList<Item>, val isBoughtLayout:Boolean): RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
-
+    //lambdas implemented in ItemListFragment
+    //pass an Item object and returns nothing
     var onItemClick: (Item) -> Unit = {}
     var onItemLongClick: (Item) -> Unit = {}
     var onItemBought: (Item) -> Unit = {}
@@ -20,7 +21,6 @@ class ItemAdapter(var itemList:MutableList<Item>, val isBoughtLayout:Boolean): R
         val itemNameTextView=itemView.findViewById<TextView>(R.id.itemNameTextView)
         val itemQtyTextView=itemView.findViewById<TextView>(R.id.itemQtyTextView)
         val itemSizeTextView=itemView.findViewById<TextView>(R.id.itemSizeTextView)
-
         val urgentImageView=itemView.findViewById<ImageView>(R.id.urgentImageView)
 
         //not present in bought item list
@@ -36,9 +36,11 @@ class ItemAdapter(var itemList:MutableList<Item>, val isBoughtLayout:Boolean): R
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemAdapter.ViewHolder {
         val view=LayoutInflater.from(parent.context).inflate(R.layout.item_list_row,parent,false)
         val viewHolder = ViewHolder(view)
+        //set on click listeners
         view.setOnClickListener{
             onItemClick(itemList.get(viewHolder.adapterPosition))
         }
+        //long click listener not present in bought items page
         if (!isBoughtLayout){
             view.setOnLongClickListener {
                 onItemLongClick(itemList.get(viewHolder.adapterPosition))
@@ -57,14 +59,19 @@ class ItemAdapter(var itemList:MutableList<Item>, val isBoughtLayout:Boolean): R
         holder.itemSizeTextView.setText("Size: ${item.size}")
         holder.itemBoughtSwitch.setOnCheckedChangeListener(null)
         holder.itemBoughtSwitch.isChecked=false
+
         if (isBoughtLayout){
+
             holder.urgentImageView.setImageResource(R.drawable.bought)
+            //when displaying bought items do not display the switch but display the date
             holder.itemBoughtSwitch.visibility=View.GONE
             holder.dateTextView.setText(item.dateBought)
 
         }else{
+            //when displaying either home page or urgent list page hide date.
             holder.dateTextView.visibility=View.GONE
             holder.dateHeading.visibility=View.GONE
+            //set checkedChangeListener to null before unchecking checkboxes
             holder.itemBoughtSwitch.setOnCheckedChangeListener(null)
             holder.itemBoughtSwitch.isChecked=false
 
@@ -73,6 +80,7 @@ class ItemAdapter(var itemList:MutableList<Item>, val isBoughtLayout:Boolean): R
             }else{
                 holder.urgentImageView.setImageResource(R.drawable.buy)
             }
+            //set checkedChangeListener to switch
             holder.itemBoughtSwitch.setOnCheckedChangeListener { _, _ ->
                 onItemBought(item)
             }
